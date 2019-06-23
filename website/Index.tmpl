@@ -1,0 +1,11 @@
+{{ define "Index" }}
+  {{ template "Header" }}
+    {{ template "Menu"  }}
+    <h2> Welcome! </h2>
+    <h2>Please register your email address to continue </h2>
+     <form method="POST" action="login">
+       <label> E-mail </label><input type="text" name="email" /><br />
+       <input type="submit" value="Register" />
+     </form>
+  {{ template "Footer" }}
+{{ end }}

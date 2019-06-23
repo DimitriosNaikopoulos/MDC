@@ -1,0 +1,59 @@
+{{ define "Quiz" }}
+  {{ template "Header" }}
+    {{ template "Menu"  }}
+    <h2> Please answer all questions </h2>
+
+
+    <div id="surveyElement"></div>
+    <form id="form" method="POST" action="result">
+      <div <input id="surveyResult" type="hidden" value="" name="data"/></div>
+    </form>
+
+    <script type="text/javascript">
+    var json = {
+        title: "Quiz",
+        showProgressBar: "bottom",
+        firstPageIsStarted: true,
+        startSurveyText: "Start Quiz",
+        pages: [
+            {
+                questions: [
+                    {
+                        type: "html",
+                        html: "You are about to start quiz. <br/> Please click on <b>'Start Quiz',</b> button when you are ready."
+                    }
+                ]
+            },
+            {{ range . }}
+             {
+                questions: [
+                    {
+                        type: "radiogroup",
+                        name: "{{ .Id }}",
+                        title: "{{ .Question }}",
+                        choices: [
+                            "{{ .Ans1 }}", "{{ .Ans2 }}", "{{ .Ans3 }}", "{{ .Ans4 }}"
+                        ],
+                        correctAnswer: "{{ .Correct }}"
+                    }
+                ]
+            },
+            {{ end }}
+              // ]
+        ],
+        completedHtml: "<h4>You have answered correctly <b>{correctedAnswers}</b> questions from <b>{questionCount}</b>.</h4>"
+    };
+
+    window.survey = new Survey.Model(json);
+
+    survey
+        .onComplete
+        .add(function (result) {
+          document
+            .querySelector('#surveyResult')
+            .textContent = JSON.stringify(result.data, null, 3)
+        });
+    $("#surveyElement").Survey({model: survey});;
+    </script>
+  {{ template "Footer" }}
+{{ end }}

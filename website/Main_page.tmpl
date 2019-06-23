@@ -1,0 +1,28 @@
+{{ define "Main_page" }}
+  {{ template "Header" }}
+    {{ template "Menu"  }}
+    <h2> Please select one of the available quizzes </h2>
+    <table border="1">
+     <thead>
+     <tr>
+       <td>Quiz ID</td>
+       <td>Title</td>
+       <td>Description</td>
+       <td>Total participants</td>
+       <td>Select quiz</td>
+     </tr>
+      </thead>
+      <tbody>
+   {{ range . }}
+     <tr>
+       <td>{{ .Id }}</td>
+       <td> {{ .Title }} </td>
+       <td>{{ .Description }} </td>
+       <td>{{ .Total }} </td>
+       <td><a href="/select_quiz?id={{ .Id }}">Start quiz</a></td>
+     </tr>
+   {{ end }}
+      </tbody>
+   </table>
+  {{ template "Footer" }}
+{{ end }}
